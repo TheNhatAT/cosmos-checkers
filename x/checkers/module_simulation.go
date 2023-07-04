@@ -24,7 +24,7 @@ var (
 )
 
 const (
-opWeightMsgCreatePost = "op_weight_msg_create_post"
+	opWeightMsgCreatePost = "op_weight_msg_create_post"
 	// TODO: Determine the simulation weight value
 	defaultWeightMsgCreatePost int = 100
 
