@@ -63,3 +63,13 @@ func TestGenesisState_Validate(t *testing.T) {
 		})
 	}
 }
+
+// The starting id on a default genesis state should be 1
+func TestDefaultGenesisState_ExpectedInitialNextId(t *testing.T) {
+	require.EqualValues(t,
+		&types.GenesisState{
+			StoredGameList: []types.StoredGame{},
+			SystemInfo:     types.SystemInfo{uint64(1)},
+		},
+		types.DefaultGenesis())
+}
