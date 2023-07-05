@@ -1,6 +1,8 @@
-package types
+package types_test
 
 import (
+	"github.com/alice/checkers/x/checkers/rules"
+	"github.com/alice/checkers/x/checkers/types"
 	"testing"
 
 	"github.com/alice/checkers/testutil/sample"
@@ -11,19 +13,95 @@ import (
 func TestMsgPlayMove_ValidateBasic(t *testing.T) {
 	tests := []struct {
 		name string
-		msg  MsgPlayMove
+		msg  types.MsgPlayMove
 		err  error
 	}{
 		{
 			name: "invalid address",
-			msg: MsgPlayMove{
-				Creator: "invalid_address",
+			msg: types.MsgPlayMove{
+				Creator:   "invalid_address",
+				GameIndex: "5",
+				FromX:     0,
+				FromY:     5,
+				ToX:       1,
+				ToY:       4,
 			},
 			err: sdkerrors.ErrInvalidAddress,
 		}, {
+			name: "invalid game index",
+			msg: types.MsgPlayMove{
+				Creator:   sample.AccAddress(),
+				GameIndex: "invalid_game_index",
+				FromX:     0,
+				FromY:     5,
+				ToX:       1,
+				ToY:       4,
+			},
+			err: types.ErrInvalidGameIndex,
+		}, {
+			name: "invalid fromX too high",
+			msg: types.MsgPlayMove{
+				Creator:   sample.AccAddress(),
+				GameIndex: "5",
+				FromX:     rules.BOARD_DIM,
+				FromY:     5,
+				ToX:       1,
+				ToY:       4,
+			},
+			err: types.ErrInvalidPositionIndex,
+		}, {
+			name: "invalid fromY too high",
+			msg: types.MsgPlayMove{
+				Creator:   sample.AccAddress(),
+				GameIndex: "5",
+				FromX:     0,
+				FromY:     rules.BOARD_DIM,
+				ToX:       1,
+				ToY:       4,
+			},
+			err: types.ErrInvalidPositionIndex,
+		}, {
+			name: "invalid toX too high",
+			msg: types.MsgPlayMove{
+				Creator:   sample.AccAddress(),
+				GameIndex: "5",
+				FromX:     0,
+				FromY:     5,
+				ToX:       rules.BOARD_DIM,
+				ToY:       4,
+			},
+			err: types.ErrInvalidPositionIndex,
+		}, {
+			name: "invalid toY too high",
+			msg: types.MsgPlayMove{
+				Creator:   sample.AccAddress(),
+				GameIndex: "5",
+				FromX:     0,
+				FromY:     5,
+				ToX:       1,
+				ToY:       rules.BOARD_DIM,
+			},
+			err: types.ErrInvalidPositionIndex,
+		}, {
+			name: "invalid no move",
+			msg: types.MsgPlayMove{
+				Creator:   sample.AccAddress(),
+				GameIndex: "5",
+				FromX:     0,
+				FromY:     5,
+				ToX:       0,
+				ToY:       5,
+			},
+			err: types.ErrMoveAbsent,
+		}, {
 			name: "valid address",
-			msg: MsgPlayMove{
-				Creator: sample.AccAddress(),
+			msg: types.MsgPlayMove{
+				Creator:   sample.AccAddress(),
+				GameIndex: "5",
+				FromX:     0,
+				FromY:     5,
+				ToX:       1,
+				ToY:       4,
 			},
 		},
 	}
