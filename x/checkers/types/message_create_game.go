@@ -25,6 +25,7 @@ func (msg *MsgCreateGame) Type() string {
 	return TypeMsgCreateGame
 }
 
+// NOTE: can modify this function
 func (msg *MsgCreateGame) GetSigners() []sdk.AccAddress {
 	creator, err := sdk.AccAddressFromBech32(msg.Creator)
 	if err != nil {
