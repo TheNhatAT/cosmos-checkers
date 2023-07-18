@@ -45,7 +45,11 @@ func (k Keeper) ForfeitExpiredGames(goCtx context.Context) {
 
 			if storedGame.MoveCount <= 1 {
 				k.RemoveStoredGame(ctx, gameIndex)
+				if storedGame.MoveCount == 1 {
+					k.MustRefundWager(ctx, &storedGame)
+				}
 			} else {
+				k.MustPayWinnings(ctx, &storedGame)
 				storedGame.Winner, found = oppenents[storedGame.Turn]
 				if !found {
 					panic(fmt.Sprintf(types.ErrCannotFindWinnerByColor.Error(), storedGame.Turn))

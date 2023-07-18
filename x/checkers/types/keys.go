@@ -60,4 +60,10 @@ const (
 	GameForfeitedEventWinner    = "winner"
 	GameForfeitedEventBoard     = "board"
 	GameCreatedEventWager       = "wager"
+	GameCreatedEventDenom       = "denom"
+)
+
+const (
+	CreateGameGas = 15000
+	PlayMoveGas   = 1000
 )

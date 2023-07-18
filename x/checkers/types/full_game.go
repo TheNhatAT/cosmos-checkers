@@ -18,7 +18,7 @@ func (storedGame StoredGame) GetRedAddress() (red sdk.AccAddress, err error) {
 	return red, sdkerrors.Wrapf(errRed, ErrInvalidRed.Error(), storedGame.Red)
 }
 
-func (storedGame StoredGame) GetPlayerAddress(color string) (address sdk.Address, found bool, err error) {
+func (storedGame StoredGame) GetPlayerAddress(color string) (address sdk.AccAddress, found bool, err error) {
 	black, err := storedGame.GetBlackAddress()
 	if err != nil {
 		return nil, false, err
@@ -37,13 +37,18 @@ func (storedGame StoredGame) GetPlayerAddress(color string) (address sdk.Address
 	return address, found, nil
 }
 
+func (storedGame StoredGame) GetWinnerAddress() (address sdk.AccAddress, found bool, err error) {
+	address, found, err = storedGame.GetPlayerAddress(storedGame.Winner)
+	return address, found, err
+}
+
 func (storedGame StoredGame) GetDeadlineAsTime() (deadline time.Time, err error) {
 	deadline, errDeadline := time.Parse(DeadlineLayout, storedGame.Deadline)
 	return deadline, sdkerrors.Wrapf(errDeadline, ErrInvalidDeadline.Error(), storedGame.Deadline)
 }
 
 func (storedGame *StoredGame) GetWagerCoin() (wager sdk.Coin) {
-	return sdk.NewCoin(sdk.DefaultBondDenom, sdk.NewInt(int64(storedGame.Wager)))
+	return sdk.NewCoin(storedGame.Denom, sdk.NewInt(int64(storedGame.Wager)))
 }
 
 func FormatDeadline(deadline time.Time) string {
