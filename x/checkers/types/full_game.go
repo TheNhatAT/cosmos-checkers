@@ -42,6 +42,10 @@ func (storedGame StoredGame) GetDeadlineAsTime() (deadline time.Time, err error)
 	return deadline, sdkerrors.Wrapf(errDeadline, ErrInvalidDeadline.Error(), storedGame.Deadline)
 }
 
+func (storedGame *StoredGame) GetWagerCoin() (wager sdk.Coin) {
+	return sdk.NewCoin(sdk.DefaultBondDenom, sdk.NewInt(int64(storedGame.Wager)))
+}
+
 func FormatDeadline(deadline time.Time) string {
 	return deadline.UTC().Format(DeadlineLayout)
 }
