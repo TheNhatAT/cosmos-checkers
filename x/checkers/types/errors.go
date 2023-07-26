@@ -27,4 +27,8 @@ var (
 	ErrCannotRefundWager       = sdkerrors.Register(ModuleName, 1117, "cannot refund wager")
 	ErrCannotPayWinnings       = sdkerrors.Register(ModuleName, 1118, "cannot pay winnings")
 	ErrNotInRefundState        = sdkerrors.Register(ModuleName, 1119, "game is not in refund state")
+	ErrWinnerNotParseable      = sdkerrors.Register(ModuleName, 1120, "winner cannot be parsed: %s")
+	ErrThereIsNoWinner         = sdkerrors.Register(ModuleName, 1121, "there is no winner")
+	ErrInvalidDateAdded        = sdkerrors.Register(ModuleName, 1122, "date added is invalid")
+	ErrCannotAddToLeaderboard  = sdkerrors.Register(ModuleName, 1123, "cannot add to leaderboard")
 )
